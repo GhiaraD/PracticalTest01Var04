@@ -54,6 +54,11 @@ public class PracticalTest01Var04MainActivity extends AppCompatActivity {
                 text.append(editText2.getText().toString());
             }
             textView.setText(text);
+
+            Intent intent = new Intent(getApplicationContext(), PracticalTest01Var04Service.class);
+            intent.putExtra("nume", editText1.getText().toString());
+            intent.putExtra("grupa", editText2.getText().toString());
+            startService(intent);
         });
 
         nextActivityButton.setOnClickListener(v -> {
@@ -63,6 +68,13 @@ public class PracticalTest01Var04MainActivity extends AppCompatActivity {
             startActivityForResult(intent, 1);
         });
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        Intent intent = new Intent(this, PracticalTest01Var04Service.class);
+        stopService(intent);
+        super.onDestroy();
     }
 
     @Override
