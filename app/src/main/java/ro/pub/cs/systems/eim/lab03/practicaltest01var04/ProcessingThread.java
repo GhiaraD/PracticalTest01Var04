@@ -22,15 +22,15 @@ public class ProcessingThread extends Thread {
     public void run() {
         while (true) {
             sleep();
-            sendMessage(nume);
+            sendMessage(nume, Constants.ACTION_NUME);
             sleep();
-            sendMessage(grupa);
+            sendMessage(grupa, Constants.ACTION_GRUPA);
         }
     }
 
-    private void sendMessage(String message) {
+    private void sendMessage(String message, String action) {
         Intent intent = new Intent();
-        intent.setAction(Constants.ACTION_STRING);
+        intent.setAction(action);
         intent.putExtra(Constants.DATA, message);
         Log.d("log", "Service sent " + message);
         context.sendBroadcast(intent);

@@ -1,6 +1,9 @@
 package ro.pub.cs.systems.eim.lab03.practicaltest01var04;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +20,9 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class PracticalTest01Var04MainActivity extends AppCompatActivity {
+
+    private Receiver messageBroadcastReceiver = new Receiver();
+    private IntentFilter intentFilter = new IntentFilter();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +74,22 @@ public class PracticalTest01Var04MainActivity extends AppCompatActivity {
             startActivityForResult(intent, 1);
         });
 
+        intentFilter.addAction(Constants.ACTION_NUME);
+        intentFilter.addAction(Constants.ACTION_GRUPA);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            registerReceiver(messageBroadcastReceiver, intentFilter, Context.RECEIVER_EXPORTED);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        unregisterReceiver(messageBroadcastReceiver);
+        super.onPause();
     }
 
     @Override
